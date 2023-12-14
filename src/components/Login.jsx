@@ -3,7 +3,7 @@ import { useState } from "react";
 
 
 
-function Login () {
+function Login ({changeUserLogin}) {
     const [userLogin, setUserLogin] = useState({});
     const handleInput = (event) => {
         const id = event.target.id;
@@ -13,7 +13,13 @@ function Login () {
             ...userLogin, //partimos de las propiedad de la variable de estado
             [id]: value, //para cada input por su id, tomame mel value que deje el usuario
         });
-}
+    };
+    const handleClick = (event) => {
+        event.preventDefault();
+        changeUserLogin(userLogin);
+
+    };
+
     return (
     <>
     <div>Login
@@ -23,7 +29,7 @@ function Login () {
         <input type="text" name="email" id="email" onChange={handleInput}></input>
         <label htmlFor="password" name="password"></label>
         <input type="password" name="password" id="password" onChange={handleInput}></input>
-        <input type="submit" value="login" ></input>
+        <input type="submit" value="login" onClick={handleClick} ></input>
     </form>
     </>
     )

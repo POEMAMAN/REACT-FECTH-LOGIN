@@ -9,12 +9,17 @@ import NotFound from "./NotFound";
 import AuthRoutes from "./AuthRoutes";
 import Login from "./Login";
 
+const userList = [
+    // email = valor
+    // password = valor 
+]
+
 function App() {
 
     //User State --> hook
     //Las variables de estado se deben dclarar siempre al principio, antes de las funciones
     const [drinks, setDrinks] = useState([]);
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(undefined);
     let [searchDrink, setSearchDrinks] = useState("ron");
 
     useEffect(() => {
@@ -34,6 +39,16 @@ function App() {
 
     // const elementsDrinks = drinks.map((drink) => <p key={drink.idDrink}>{drink.strDrink}</p>) //hay que poner siempre el Key al renderizar una lista con Map, se suele usar el Id al ser unico, sino se puede usar el indice del Map
 
+    const changeUserLogin = (userForm) => {
+        const findUser = userList.find((user) => user.email === userForm.email && user.password === userForm.password)
+        if (findUser){
+            setUser(findUser)
+        }
+    }
+
+
+
+
     const handleDrinks = (event) => {
         setSearchDrinks(event.target.value)
         if (event.target.value === "") {
@@ -50,7 +65,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<h1>UseEfect</h1>} />{/*que quiero que renderice/> */}
                 <Route path="/list" element={<AuthRoutes user={user} component={<ListDrinks drinks={drinks}/>} />} />
-                <Route path="/login" element={<Login/>} />
+                <Route path="/login" element={<Login changeUserLogin={changeUserLogin} />} />
                 <Route path="/detail/:name/:id" element={<Detail drinks={drinks} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
